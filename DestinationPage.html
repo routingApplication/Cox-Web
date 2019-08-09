@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+	<title>Ticket Destination</title>
+	<link rel="stylesheet" href="EditPageCSS.css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	</head>
+
+	<body>
+		<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+		<script src="script.js"></script>
+		
+		<script>
+			var firebaseConfig = {
+				apiKey: "AIzaSyA57nMPqm6bHkyBbm0x_zHeBhIB9vVNgHI",
+				authDomain: "cox-routing-application.firebaseapp.com",
+				databaseURL: "https://cox-routing-application.firebaseio.com",
+				projectId: "cox-routing-application",
+				storageBucket: "",
+				messagingSenderId: "577935096428",
+				appId: "1:577935096428:web:8f061e558a1ab0f8"
+			};
+
+
+			var messagesRef = new Firebase('https://cox-routing-application.firebaseio.com/GlobalValues/destination');
+			var keys;
+			
+						
+			messagesRef.on("value", gotData, errData);
+			
+			
+			function errData(){
+				console.log("Error");
+				console.log(err);
+			}
+			
+			function gotData(data) {
+
+				var destination = data.val();
+				document.getElementById("destination").innerHTML = destination;
+				
+
+			}
+			
+			function homePage(){
+				window.location.href = "index.html";
+			}
+
+		</script>
+
+		<div class="center">
+			<h1 id="title">Ticket Destination</h1>
+
+		</div>
+
+		<div class="row">
+			<div class="column">
+				<div class="card">
+				
+					<div class="selectBox">
+						<p id="name" style="font-size: 30px">Please Route Tickect To: </p>
+						<p id="destination" style="font-size: 30px"></p>
+					</div>
+
+					<div class="buttonBox">
+						<button id="homeBtn" class="button"  onClick="homePage()">Home</button>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	
+</html>

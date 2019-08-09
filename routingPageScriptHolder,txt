@@ -1,0 +1,440 @@
+var firebaseConfig = {
+	apiKey: "AIzaSyA57nMPqm6bHkyBbm0x_zHeBhIB9vVNgHI",
+	authDomain: "cox-routing-application.firebaseapp.com",
+	databaseURL: "https://cox-routing-application.firebaseio.com",
+	projectId: "cox-routing-application",
+	storageBucket: "",
+	messagingSenderId: "577935096428",
+	appId: "1:577935096428:web:8f061e558a1ab0f8"
+};
+
+firebase.initializeApp(firebaseConfig);
+var featurePath = 'https://cox-routing-application.firebaseio.com/GlobalValues/editPageCurrentFeature';
+var featureRef = new Firebase(featurePath);
+var keys;
+var featureList = [];
+var newCriteriaList=[];
+var newResolutionArray = [];
+var feature;
+var count = 0;
+var hasTier2 = false;
+var tier2Count = 0;
+
+featureRef.on("value", gotData, errData);
+
+function loadPage(){
+	document.getElementById("otherTeam").style.display = "none";
+	document.getElementById("Tier2").style.display="none";
+	count=0;
+	newCriteriaList=[];
+	newResolutionArray=[];
+	
+	var resolutionSectionHTML = document.getElementById("resolutionSection");
+	while (resolutionSectionHTML.firstChild) {
+		resolutionSectionHTML.removeChild(resolutionSectionHTML.firstChild);
+	}
+	
+	var criteriaSectionHTML = document.getElementById("pSection")
+	while (criteriaSectionHTML.firstChild) {
+		criteriaSectionHTML.removeChild(criteriaSectionHTML.firstChild);
+	}
+
+}
+
+function gotData(data) {
+
+	feature = data.val();
+	//var featureKeys = Object.keys(features);
+	document.getElementById("heading").innerHTML = feature + " Feature Edit Page";
+	
+	var teamPath = 'https://cox-routing-application.firebaseio.com/Features/'+feature;
+	var teamRef = new Firebase(teamPath);
+	
+	teamRef.on("value", function(snapshot) {
+		
+		var selectGroup = document.getElementById("cardView");
+		while (selectGroup.firstChild) {
+		selectGroup.removeChild(selectGroup.firstChild);
+		}
+		
+		if(snapshot.val()!=null){
+			console.log(snapshot.val());
+			var teams = Object.keys(snapshot.val());
+		   
+			for(i = 0; i < teams.length; i++){
+				
+				if((teams[i].localeCompare("Tier 2"))!=0){
+					hasTier2 = false;
+					var criteriaPath = teamPath+"/"+teams[i];
+					var criteriaFire = new Firebase(criteriaPath);
+				   
+					//html Code
+					var sector = document.createElement("div");
+					sector.className = "card";
+				   
+					var title = document.createElement("h2");
+					title.className="title";
+					var textNode = document.createTextNode(teams[i]);
+					title.appendChild(textNode);
+					
+					var topSection = document.createElement("div");
+					topSection.className = "topSection";
+					topSection.appendChild(title);
+					topSection.appendChild(deleteTeamBtn(teams[i]))
+					
+					sector.appendChild(topSection);
+
+					
+					var criteriaHeading = document.createElement("h3");
+					var criteriaHeadingTextNode = document.createTextNode("Criteria: ");
+					criteriaHeading.appendChild(criteriaHeadingTextNode);
+
+					sector.appendChild(criteriaHeading);
+					
+					//sector.appendChild(deleteLogo);
+				   
+					criteriaFire.on("value", function(criteriaData) {
+						console.log(criteriaData.val());
+						
+						if(criteriaData.val()!=null){
+							sector.appendChild(createCriteriaList(criteriaData.val().Criteria, teams[i]));
+						}
+						
+					}, function (error) {
+						console.log("Error: " + error.code);
+					});
+					sector.appendChild(document.createElement("br"));
+					sector.appendChild(addBtnFunction(teams[i]));
+					sector.appendChild(saveBtnFunction(teams[i]));
+
+					var cardViewSection = document.getElementById("cardView");
+					cardView.appendChild(sector);
+				}
+				else{
+					hasTier2=true;
+					var sector = document.createElement("div");
+					sector.className = "card";
+				   
+					var title = document.createElement("h2");
+					var textNode = document.createTextNode(teams[i]);
+				   
+					title.appendChild(textNode);
+					sector.appendChild(title);
+					
+					var reasonPath = 'https://cox-routing-application.firebaseio.com/Features/'+feature+"/"+"Tier 2";
+					var reasonRef = new Firebase(reasonPath);
+					
+					reasonRef.on('value', function(reasonData) {
+						
+						var reasonsList = Object.keys(reasonData.val());
+						tier2Count = reasonsList.length;
+						
+						for(b=0; b < reasonsList.length; b++ ){
+
+							var newReasonPath = reasonPath+"/"+reasonsList[b];
+							var newFireReasonPath = new Firebase(newReasonPath);
+						
+							newFireReasonPath.on("value", function(snapshot){
+								var reason = snapshot.val();
+								var idName = "Reason "+(b+1);
+								
+								var reasonSection = document.createElement("div");
+								reasonSection.className= "card2";
+								
+								var reasonHeading = document.createElement("h3");
+								var reasonHeadingTextNode = document.createTextNode("Scenerio "+(b+1)+": ");
+								reasonHeading.appendChild(reasonHeadingTextNode);
+								
+								var scenerioHeading = document.createElement("p2");
+								var scenerioHeadingTextNode = document.createTextNode(reason.Question);
+								var questionIdName = "questionHolder "+idName
+								scenerioHeading.id = questionIdName;
+								scenerioHeading.appendChild(scenerioHeadingTextNode);
+								
+								var resolutionHeading = document.createElement("p2");
+								var resolutionHeadingTextNode = document.createTextNode("Resolution:");
+								resolutionHeading.appendChild(resolutionHeadingTextNode);
+								
+								reasonSection.appendChild(reasonHeading);
+								reasonSection.appendChild(scenerioHeading);
+								reasonSection.appendChild(editScenerioBtnFunction(idName, questionIdName, reason.Question, reasonSection));
+								reasonSection.appendChild(document.createElement("br"));
+								reasonSection.appendChild(document.createElement("br"));
+								reasonSection.appendChild(resolutionHeading);
+								reasonSection.appendChild(createCriteriaList(reason.Resolution, idName));
+								reasonSection.appendChild(addBtnFunction(idName));
+								reasonSection.appendChild(saveBtnResolutionFunction(idName));
+								
+								sector.appendChild(reasonSection);
+								
+							});
+							
+						}
+						
+					});
+					
+					var cardViewSection = document.getElementById("cardView");
+					cardView.appendChild(sector);
+					
+				}
+				
+			}
+		}
+		
+	   
+	}, function (error) {
+	   console.log("Error: " + error.code);
+	});
+	
+}
+
+function errData(){
+	console.log("Error");
+	console.log(err);
+}
+
+function addBtnFunction(teamName){
+	
+	var addBtn = document.createElement("button");
+	var textNode = document.createTextNode("Add");
+	
+	addBtn.appendChild(textNode);
+	addBtn.className = "button";
+	
+	addBtn.addEventListener("click", function(){
+		var criteriaSection = document.getElementById(teamName);
+		var newTextArea = document.createElement("textarea");
+		newTextArea.value ="";
+		newTextArea.rows = "2";
+		newTextArea.cols = "50";
+		criteriaSection.appendChild(newTextArea);
+		
+	});
+	
+	return addBtn;
+}
+
+function saveBtnFunction(teamName){
+	var saveBtn = document.createElement("button");
+	var textNode = document.createTextNode("Save");
+	
+	saveBtn.appendChild(textNode);
+	saveBtn.className = "button";
+	
+	saveBtn.addEventListener("click", function(){
+		var criteriaList = [];
+		var criteriaSection = document.getElementById(teamName);
+		var divElements = criteriaSection.children;
+		console.log(divElements.length);
+		for(z = 0; z < divElements.length; z+=2){
+			//console.log("Helloooo");
+			
+			if(divElements[z].length != 0){
+				console.log(divElements[z].value+"");
+				criteriaList.push(divElements[z].value+"");
+			}
+		}
+		
+		var newCriteriaPath = 'https://cox-routing-application.firebaseio.com/Features/'+feature+"/"+teamName+"/Criteria";
+		var newCriteriaRef = new Firebase(newCriteriaPath);
+		
+		newCriteriaRef.set(null);
+		newCriteriaRef.set(criteriaList);
+	});
+	return saveBtn;
+	
+}
+
+function saveBtnResolutionFunction(teamName){
+	var saveBtn = document.createElement("button");
+	var textNode = document.createTextNode("Save");
+	
+	saveBtn.appendChild(textNode);
+	saveBtn.className = "button";
+	
+	saveBtn.addEventListener("click", function(){
+		var newResolutionList = [];
+		var resolutionSection = document.getElementById(teamName);
+		var divElements = resolutionSection.children;
+		console.log(divElements.length);
+		for(z = 0; z < divElements.length; z+=2){
+			//console.log("Helloooo");
+			
+			if(divElements[z].length != 0){
+				console.log(divElements[z].value+"");
+				newResolutionList.push(divElements[z].value+"");
+			}
+		}
+		
+		var newResolutionPath = 'https://cox-routing-application.firebaseio.com/Features/'+feature+"/"+"Tier 2/"+teamName+"/Resolution";
+		var newResolutionRef = new Firebase(newResolutionPath);
+		
+		newResolutionRef.set(null);
+		newResolutionRef.set(newResolutionList);
+	});
+	return saveBtn;
+	
+}
+
+function createCriteriaList(criteriaData, teamName){
+	
+	var criteriaSectionList = document.createElement("div");
+	criteriaSectionList.id = teamName;
+
+	for(x = 0; x < criteriaData.length; x++ ){
+		
+		var criteria = criteriaData[x];
+		//console.log("Here!!!!: "+criteria);
+		var textArea = document.createElement("textarea");
+		textArea.value = criteria;
+		textArea.rows = "2";
+		textArea.cols = "50";
+		criteriaSectionList.appendChild(textArea);
+		criteriaSectionList.appendChild(document.createElement("br"));
+	}
+	
+	return criteriaSectionList;
+
+}
+
+function editScenerioBtnFunction(name, questionHolderID, question, elementParent){
+	var editBoolean = false;
+	
+	var editHeading = document.createElement("p2");
+	editHeading.innerHTML = "   <u>Edit</u>";
+	editHeading.style.color = "#00a1e6";
+	
+	var scenerioEditHolder = document.createElement("textarea");
+	scenerioEditHolder.value = question;
+	scenerioEditHolder.rows = "2";
+	scenerioEditHolder.cols = "50";
+	
+	editHeading.addEventListener("click", function(){
+		
+		var questionPlaceHolder = document.getElementById(questionHolderID);
+		var tempQuestionHolder = questionPlaceHolder;
+		
+		if(editBoolean == false){
+
+			elementParent.replaceChild(scenerioEditHolder, questionPlaceHolder);
+			editHeading.innerHTML = "   <u>Save</u>";
+			editBoolean = true;
+			
+		}else{
+			
+			var newFirePath = 'https://cox-routing-application.firebaseio.com/Features'+"/"+feature+"/Tier 2"+"/"+name+"/Question";
+			var newRef = new Firebase(newFirePath)
+			newRef.set(null);
+			newRef.set(scenerioEditHolder.value);
+		}
+		
+	}); 
+	
+	return editHeading;
+}
+
+function openTier2(){
+	document.getElementById("Tier2").style.display="block";
+}
+
+function openOtherTeam(){
+	document.getElementById("otherTeam").style.display="block";
+}
+
+function submitNewTeam(){
+	
+	var teamNameInput = document.getElementById("featureTeam").value
+	
+	if(teamNameInput.length == 0){
+		alert("Please add a team name for the new Feature Created");
+	}
+	else{
+		var newTeamCriteriaPath = 'https://cox-routing-application.firebaseio.com/Features'+"/"+feature+"/"+teamNameInput+"/Criteria";
+		var newTeamRef = new Firebase(newTeamCriteriaPath);
+		newTeamRef.set(newCriteriaList);
+	
+		loadPage();
+		document.getElementById("featureTeam").value = "";
+	}
+	
+}
+
+//Function called when creating a new Team. Manages the add criteria button. 
+function addCriteria(){
+	count++;
+	var criteria = document.getElementById("teamCriteria");
+	var criteriaInput = criteria.value;
+	criteria.value = "";
+	newCriteriaList.push(criteriaInput);
+	
+	//Html Code
+	
+	var pTag = document.createElement("p3");
+	var textNode = document.createTextNode(count+". "+criteriaInput);
+	pTag.appendChild(textNode);
+	
+	document.getElementById("pSection").appendChild(pTag);
+	document.getElementById("pSection").appendChild(document.createElement("br"));
+	//End of Html Code
+	
+}
+
+//Function called when creating a new tier 2 secenerio. Manages the add Resolution button.
+function addResolution(){
+	count++;
+	var resolution = document.getElementById("resolutionInput");
+	var resolutionInput = resolution.value;
+	resolution.value = "";
+	newResolutionArray.push(resolutionInput);
+	
+	//Html Code
+	
+	var pTag = document.createElement("p3");
+	var textNode = document.createTextNode(count+". "+resolutionInput);
+	pTag.appendChild(textNode);
+	
+	document.getElementById("resolutionSection").appendChild(pTag);
+	document.getElementById("resolutionSection").appendChild(document.createElement("br"));
+	//End of Html Code
+}
+
+function submitTier2Scenerio(){
+
+	var tierScenerio = document.getElementById("tierScenerio").value;
+
+	if(tierScenerio.length == 0){
+		alert("Please the a Scenerio for Tier 2");
+	}	
+	else if(newResolutionArray.length == 0){
+		alert("Please enter atleast one Resolution");
+	}
+	else{
+		var newFirePath = 'https://cox-routing-application.firebaseio.com/Features'+"/"+feature+"/Tier 2"+"/"+"Reason "+(tier2Count+1)+"/Resolution";
+		var newRef = new Firebase(newFirePath)
+		newRef.set(newResolutionArray);
+		
+		newFirePath = 'https://cox-routing-application.firebaseio.com/Features'+"/"+feature+"/Tier 2"+"/"+"Reason "+(tier2Count)+"/Question";
+		newRef = new Firebase(newFirePath)
+		newRef.set(tierScenerio);
+		
+		loadPage();
+		document.getElementById("tierScenerio").value = "";
+	}
+}
+
+function deleteTeamBtn(teamName){
+	var deleteHeading = document.createElement("h2");
+	deleteHeading.innerHTML = "   <u>Delete</u>";
+	deleteHeading.style.color = "#00a1e6";
+	deleteHeading.className="delete";
+	
+	deleteHeading.addEventListener("click", function(){
+		var newFirePath = 'https://cox-routing-application.firebaseio.com/Features'+"/"+feature+"/"+teamName;
+		var newRef = new Firebase(newFirePath)
+		newRef.set(null);
+	}); 
+	return deleteHeading;
+	
+}
+
+

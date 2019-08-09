@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>Page Title</title>
+	<link rel="stylesheet" href="EditPageCSS.css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	</head>
+
+	<body>
+		<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+		<script src="RoutingPageScript.js"></script>
+		<div class="topnav">
+		  <a class="active" href="index.html">Home</a>
+		  <a align="right" href="RoutingMainPage.html">Search</a>
+		</div>
+		
+		<h1 style="background-color: #00AAF4; margin-top: 0px; color: #ffffff ">Search Page</h1>
+		
+		<div class="center">
+			<h1 id="title"></h1>
+		</div>
+
+		<div class="row">
+			<div class="column">
+				<div class="card">
+					<p id="question" style="font-size: 35px" size="6">Question</p>
+					
+					<form style="font-size: 30px" >
+						<input type="radio" name="question" value="yes" id="yes" style="height:30px; width:30px; vertical-align: middle;">Yes<br>
+						<input type="radio" name="question" value="no" id="no" style="height:30px; width:30px; vertical-align: middle;">No<br>
+					</form>
+
+					<div class="buttonBox">
+						<button type="button" class="button"  onClick="checkRadioInput()" >Next</button>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	
+</html>

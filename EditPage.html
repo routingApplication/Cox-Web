@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+	<title>Page Title</title>
+	<link rel="stylesheet" href="EditPageCSS.css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	
+	</head>
+
+	<body onload="loadPage()">
+		<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+		<script src="EditPageScript.js"></script>
+	
+
+		<div class="topnav">
+		  <a class="active" href="MainPage.html">Home</a>
+		  <a align="right" href="RoutingMainPage.html">Search</a>
+		</div>
+	
+		<h1 style="background-color: #00AAF4; margin-top: 0px; color: #ffffff ">Edit Feature</h1>
+
+		<div class="row">
+			<div class="row">
+				<div class="card">
+					<div class="selectBox">
+						<select id="featureList" style="font-size: 30px" size="6">
+
+						</select>
+					</div>
+					
+					<div class="buttonBox">
+						<button type="button" class="button" onClick="addFeature()">New Feature</button>
+						<button type="button" class="button" onClick="setTeamPage()">Select</button>
+						<button type="button" class="button" onClick="deleteFeature()">Delete</button>
+					</div>
+					
+				</div>
+				<br>
+				<div id="newFeatureClass" class="card" class="id">
+					<div class="formId"id="formSection">
+						
+						<div id = "newFeatureClas">
+							<h2> New Feature</h2>
+							New Feature Name: <input type="text" id="featureName"  value=""><br><br>
+						</div>
+						
+						<div id="chooseTeamBtns">
+							<button type="button" class="button" onClick="tierBtnFunction()">Add Tier 2 Scenario</button>
+							<button type="button" class="button" onClick="otherTeamBtnFunction()">Add Other Team Scenario</button>
+						</div>
+						
+						<div id="Tier2">
+							<h2> Tier 2 </h2>
+							Scenario/Question: <input type="text" id="tierScenerio" value=""><br><br>
+							Add Resolution Steps: <br><br><textarea class="txtArea" type="text" id="resolutionStep" rows="2" cols="40"></textarea>
+							<button type="button" class="button1" onclick="addResolution()">Add Resolution</button>
+							
+							<div id="resolutionSection"></div>
+							<br><br>
+							<div class="buttonBox">
+								<button type="button" class="button" onClick="submitTier2Feature()">Submit</button>
+								<button type="button" class="button" onClick="loadPage()">Cancel</button>
+							</div>
+						</div>
+						
+						<div id="otherTeam">
+							New Team Name: <select id = "teamDropDown" onChange="checkAlert(event)">
+
+											</select> <input type="text" id="teamNameInput"  value=""><br><br>
+							Add New Scenario Criteria: <br><br> <textarea class="txtArea" type="text" id="teamCriteria" rows="2" cols="40"></textarea>
+							<button type="button" class="button1" onclick="addCriteria()">Add Criteria</button>
+							
+							<div id="pSection"></div>
+							<br><br>
+							<div class="buttonBox">
+								<button type="button" class="button" onClick="submitOtherFeature()">Submit</button>
+								<button type="button" class="button" onClick="loadPage()">Cancel</button>
+							</div>
+						</div>
+
+						
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	
+</html>

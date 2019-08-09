@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+	<title>Page Title</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="MainPageStyle.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	</head>
+	
+	<body>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+
+		<!-- Add Firebase products that you want to use -->
+
+		<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+
+		<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+		
+		
+		<Script> 
+		
+		function routeMainPage(){
+			window.location.href = "RoutingMainPage.html";
+		
+		}
+		function viewPage(){
+			window.location.href = "ViewPage.html";
+		}
+		
+		</Script>
+		<ul class="topnav">
+			<li class="dropdown right">
+				<a href="javascript:void(0)" class="dropbtn">Adminstrative Tools</a>
+				<div class="dropdown-content">
+					<a href="EditPage.html">Edit</a>
+					<a href="ViewPage.html">View</a>
+				</div>
+			</li>
+		</ul>
+
+		<div class="center">
+		
+			<img src="coxLogo.png" alt="Cox Logo" width="325" height="150" class="center">
+			<br></br>
+			<h1>COX Business My Account</h1>
+			<p>Routing Web-Application</p>
+		</div>
+
+		<div class="centerBtn">
+			<button type="button" class="button" onClick="routeMainPage()">Search</button>
+		</div>
+	</body>
+</html>
+

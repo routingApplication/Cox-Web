@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+	<title>Feature Team Page</title>
+	<link rel="stylesheet" href="TeamPageStyle.css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	</head>
+
+	<body onload="loadPage()">
+		<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+		<script src="TeamPageScript.js"></script>
+	
+		<div class="topnav">
+		  <a class="active" href="index.html">Home</a>
+		  <a align="right" href="RoutingMainPage.html">Search</a>
+
+		</div>
+		<h1 id="heading" style="background-color: #00AAF4; margin-top: 0px; color: #ffffff "></h1>
+		<div class="centerBtn">
+			<button type="button" class="button2" onClick="openTier2()">Add New Tier 2 Scenerio</button>
+			<button type="button" class="button2" onClick="openOtherTeam()">Add New Scenerio</button>
+		</div>
+		
+		<div id="Tier2" class="card">
+			<h2> Tier 2 </h2>
+			Scenerio/Question: <input type="text" id="tierScenerio" value="" size="40"><br><br>
+			Add Resolution Steps: <br><br><textarea class="txtArea"type="text" id="resolutionInput" rows="2" cols="40"></textarea>
+			<button type="button" class="button1" onclick="addResolution()">Add Resolution</button>
+			
+			<div id="resolutionSection"></div>
+			<br><br>
+			<div class="buttonBox">
+				<button type="button" class="button" onClick="submitTier2Scenerio()">Submit</button>
+				<button type="button" class="button" onClick="loadPage()">Cancel</button>
+			</div>
+		</div>
+		
+		<div id="otherTeam" class = "card">
+			New Team Name: <select id="teamDropDown" onChange="checkAlert(event)"> </select> <input type="text" id="teamNameInput"  value=""><br><br>
+			Add New Scenario Criterias:<br><br> <textarea class="txtArea" type="text" id="teamCriteria" rows="2" cols="40"></textarea>
+			<button type="button" class="button1" onclick="addSceneCriteria()">Add Criteria</button>
+			
+			<div id="pSection"></div>
+			<br><br>
+			<div class="buttonBox">
+				<button type="button" class="button" onClick="submitNewTeamScene()">Submit</button>
+				<button type="button" class="button" onClick="loadPage()">Cancel</button>
+			</div>
+		</div>
+		
+		<div id="cardView" ></div>
+		
+	</body>
+	
+</html>

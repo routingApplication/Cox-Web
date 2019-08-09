@@ -1,0 +1,98 @@
+.center {
+  text-align: center;
+  margin-top: 30px;
+}
+
+ol li{
+ font-size:23px;
+}
+p {
+  font-size: 25px;
+}
+p2 {
+  font-size: 23px;
+}
+h2{
+	font-weight:bold;
+}
+h1{
+	float:center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  background-color: #e6e6e6;;
+  float: center;
+  margin: 0 auto;
+  width: 70%;
+  margin-top: 2%;
+
+}
+.card2 {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  background-color: #f2f2f2;
+  float: center;
+  margin: 0 auto;
+  width: 90%;
+  margin-top: 2%;
+
+}
+
+.topSection {
+  display: inline-block;
+}
+.w3-teal{
+	background-color:lightblue;
+}
+
+h1{
+	text-align: center;
+}
+
+
+.topnav {
+  overflow: hidden;
+  background-color: #00AAF4;
+}
+
+.topnav a {
+  float: left;
+  color: #ffffff;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight:bold;
+}
+.topnav a:hover {
+  background-color: #00d258;
+  color: #fff;
+}
+
+ select>option{ 
+    width:600px;
+	text-align: center;
+}
+				 
+.selectBox{ 
+	text-align: center;
+	margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+		 				 
