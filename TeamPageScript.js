@@ -562,7 +562,7 @@ function addSceneCriteria(){
 
 function submitNewTeamScene(){
 	
-	var teamNameInput = ""
+	var teamNameInput = teamsMenuList[0];
 	
 	if(isOther){
 		teamNameInput = document.getElementById("teamNameInput").value;
@@ -571,8 +571,12 @@ function submitNewTeamScene(){
 		newTeamRef.set(teamNameInput);
 		index++;
 	}
-	else{
-		teamNameInput = teamOptionName;
+	else{	
+		if(teamOptionName!=null){
+		   teamNameInput = teamOptionName;
+		   }
+		   
+		
 			
 	}
 	
@@ -736,9 +740,9 @@ function checkAlert(evt) {
 		isOther = false;
 		document.getElementById("teamNameInput").value = "";
 		document.getElementById("teamNameInput").style.visibility="hidden";
-		for(var c = 0; c < teamsList.length; c++){
+		for(var c = 0; c < teamsMenuList.length; c++){
 			
-			if (evt.target.value === teamsList[c]) {
+			if (evt.target.value === teamsMenuList[c]) {
 				teamOptionName = teamsMenuList[c];
 			}
 		}
